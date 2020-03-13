@@ -61,9 +61,10 @@ class CoursController extends AbstractController {
     /**
      * @Route("/cours/{id}", name="cours_details", requirements={"id"="\d+"})
      */
-    public function cours_details(int $id) {
+    public function cours_details(Cours $cours) {
 
-        $cours = $this->_em->getRepository(Cours::class)->find($id);
+        //Symfony automatically get the corresponding Cours
+//        $cours = $this->_em->getRepository(Cours::class)->find($id);
 
         return $this->render('cours/cours_details.html.twig',
             [
