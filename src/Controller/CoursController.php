@@ -90,7 +90,7 @@ class CoursController extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->_em->getManager();
             $entityManager->persist($cours);
             $entityManager->flush();
 
@@ -118,7 +118,7 @@ class CoursController extends AbstractController {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->_em->getManager()->flush();
 
             return $this->render('cours/cours_details.html.twig',
                 [
@@ -138,7 +138,7 @@ class CoursController extends AbstractController {
     public function cours_delete(Request $request, Cours $cours): Response
     {
         if ($this->isCsrfTokenValid('delete'.$cours->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->_em->getManager();
             $entityManager->remove($cours);
             $entityManager->flush();
         }
