@@ -4,40 +4,47 @@
 
 {% block body %}
 
-    {#<a href="{{ path('cours') }}">Liste des cours !</a>#}
-
     <h1 class="title is-2">Cours par semestres</h1>
 
     {% for semestre, list_cours in cours %}
 
         <h2 class="title is-4">{{ semestre }}</h2>
 
-        <table class="table is-striped is-hoverable is-fullwidth">
+        {% if list_cours != null %}
 
-            <thead>
-            <tr>
-                <th>Identifiant</th>
-                <th>Nom</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
+            <table class="table is-striped is-hoverable is-fullwidth">
 
-            {% for current_cours in list_cours %}
-
+                <thead>
                 <tr>
-
-                    <td>{{ current_cours.id }}</td>
-                    <td>{{ current_cours.name }}</td>
-                    <td><a href="{{ path('cours_details', {id: current_cours.id}) }}">Plus</a></td>
-
+                    <th>Identifiant</th>
+                    <th>Nom</th>
+                    <th></th>
                 </tr>
+                </thead>
+                <tbody>
 
-            {% endfor %}
+                {% for current_cours in list_cours %}
 
-            </tbody>
+                    <tr>
 
-        </table>
+                        <td>{{ current_cours.id }}</td>
+                        <td>{{ current_cours.name }}</td>
+                        <td><a href="{{ path('cours_details', {id: current_cours.id}) }}">Plus</a></td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% else %}
+
+            {# TODO #}
+            <h2 class="subtitle">Aucun cours associés !</h2>
+
+        {% endif %}
 
     {% endfor %}
 
