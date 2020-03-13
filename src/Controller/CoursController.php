@@ -55,6 +55,11 @@ class CoursController extends AbstractController {
             $cours[$semestre->getName()] = $cours_repository->findBy(['semestre' => $semestre->getId()]);
         }
 
+        $empty = $cours_repository->findBy(['semestre' => null]);
+        if (!empty($empty)) {
+            $cours["Aucun semestre"] = $cours_repository->findBy(['semestre' => null]);
+        }
+
         return $this->render('cours/by_semestre.html.twig',
             [
                 'cours' => $cours
