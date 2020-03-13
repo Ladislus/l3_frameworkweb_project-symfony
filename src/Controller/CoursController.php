@@ -83,7 +83,7 @@ class CoursController extends AbstractController {
     /**
      * @Route("/cours/new", name="cours_new", methods={"GET","POST"})
      */
-    public function new_cours(Request $request) : Response
+    public function cours_new(Request $request) : Response
     {
         $cours = new Cours();
         $form = $this->createForm(CoursForm::class, $cours);
@@ -112,7 +112,7 @@ class CoursController extends AbstractController {
     /**
      * @Route("/cours/edit/{id}", name="cours_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Cours $cours): Response
+    public function cours_edit(Request $request, Cours $cours): Response
     {
         $form = $this->createForm(CoursForm::class, $cours);
         $form->handleRequest($request);
@@ -135,7 +135,7 @@ class CoursController extends AbstractController {
     /**
      * @Route("/cours/delete/{id}", name="cours_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Cours $cours): Response
+    public function cours_delete(Request $request, Cours $cours): Response
     {
         if ($this->isCsrfTokenValid('delete'.$cours->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
