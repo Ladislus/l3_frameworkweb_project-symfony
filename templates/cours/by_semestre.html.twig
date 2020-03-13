@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cours par semestres{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('cours') }}">Liste des cours !</a>
+
+    <h1>Cours par semestres</h1>
+
+    {% for semestre, list_cours in cours %}
+
+        <h2>{{ semestre }}</h2>
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Identifiant</th>
+                <th>Nom</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for current_cours in list_cours %}
+
+                <tr>
+
+                    <td>{{ current_cours.id }}</td>
+                    <td>{{ current_cours.name }}</td>
+                    <td><a href="{{ path('cours_details', {id: current_cours.id}) }}">Plus</a></td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    {% endfor %}
+
+{% endblock %}

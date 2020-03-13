@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Details sur le cours {{ cours.id }}{% endblock %}
+
+{% block body %}
+
+    <h1>{{ cours.name }}</h1>
+
+    {% if cours.semestre == null %}
+
+        <p> Aucun semestre </p>
+
+    {% else %}
+
+        <p>{{ cours.semestre.name }}</p>
+
+    {% endif %}
+
+    <p>{{ cours.description }}</p>
+
+    <a href="{{ app.request.headers.get('referer') }}">Retour !</a>
+
+{% endblock %}
