@@ -4,13 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Semestre;
 use App\Form\SemestreForm;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SemestreController extends AbstractController
-{
+class SemestreController extends AbstractController {
+
+    private $_em;
+
+    public function __construct(ManagerRegistry $em) {
+        $this->_em = $em;
+    }
+
     /**
      * @Route("/semestre/new", name="semestre_new", methods={"GET","POST"})
      */
@@ -21,7 +28,7 @@ class SemestreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->_em->getManager();
             $entityManager->persist($semestre);
             $entityManager->flush();
 
@@ -41,7 +48,7 @@ class SemestreController extends AbstractController
      */
     public function semestre_edit(Request $request, Semestre $semestre): Response {
 
-        $clean_cours = $this->getDoctrine()->getRepository(Semestre::class)->find($semestre->getId());
+        $clean_cours = $this->_em->getRepository(Semestre::class)->find($semestre->getId());
         foreach ($clean_cours as $cours) {
             $semestre->removeCour($cours);
         }
@@ -50,7 +57,7 @@ class SemestreController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->_em->getManager()->flush();
 
             return $this->redirectToRoute('cours_by_semestre');
         }
@@ -67,7 +74,7 @@ class SemestreController extends AbstractController
     public function cours_delete(Request $request, Semestre $semestre): Response
     {
         if ($this->isCsrfTokenValid('delete'.$semestre->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->_em->getManager();
             $entityManager->remove($semestre);
             $entityManager->flush();
         }
