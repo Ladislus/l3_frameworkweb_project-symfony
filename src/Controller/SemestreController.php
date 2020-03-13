@@ -41,7 +41,7 @@ class SemestreController extends AbstractController
      */
     public function semestre_edit(Request $request, Semestre $semestre): Response {
 
-        $clean_cours = $this->getDoctrine()->getRepository()->find($semestre->getId());
+        $clean_cours = $this->getDoctrine()->getRepository(Semestre::class)->find($semestre->getId());
         foreach ($clean_cours as $cours) {
             $semestre->removeCour($cours);
         }
