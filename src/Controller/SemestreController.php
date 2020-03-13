@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Semestre;
+use App\Entity\Cours;
 use App\Form\SemestreForm;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -75,6 +76,12 @@ class SemestreController extends AbstractController {
     {
         if ($this->isCsrfTokenValid('delete'.$semestre->getId(), $request->request->get('_token'))) {
             $entityManager = $this->_em->getManager();
+
+            $associated_cours = $this->_em->getRepository(Cours::class)->findBy(['semestre' => $semestre->getId()]);
+            foreach ($associated_cours as $cours) {
+                $cours->setSemestre(null);
+            }
+
             $entityManager->remove($semestre);
             $entityManager->flush();
         }
