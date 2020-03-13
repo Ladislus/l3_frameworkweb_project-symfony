@@ -4,15 +4,15 @@
 
 {% block body %}
 
-    <h1>{{ cours.name }}</h1>
+    <h1 class="title is-2">{{ cours.name }}</h1>
 
     {% if cours.semestre == null %}
 
-        <p> Aucun semestre </p>
+        <h2 class="subtitle"> Aucun semestre </h2>
 
     {% else %}
 
-        <p>{{ cours.semestre.name }}</p>
+        <h2 class="subtitle"> {{ cours.semestre.name }}</h2>
 
     {% endif %}
 

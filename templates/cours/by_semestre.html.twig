@@ -4,15 +4,15 @@
 
 {% block body %}
 
-    <a href="{{ path('cours') }}">Liste des cours !</a>
+    {#<a href="{{ path('cours') }}">Liste des cours !</a>#}
 
-    <h1>Cours par semestres</h1>
+    <h1 class="title is-2">Cours par semestres</h1>
 
     {% for semestre, list_cours in cours %}
 
-        <h2>{{ semestre }}</h2>
+        <h2 class="title is-4">{{ semestre }}</h2>
 
-        <table>
+        <table class="table is-striped is-hoverable is-fullwidth">
 
             <thead>
             <tr>
@@ -41,4 +41,11 @@
 
     {% endfor %}
 
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let element = document.getElementById("navbar-button-cours-par-semestre");
+        element.classList.add("is-active");
+    </script>
 {% endblock %}
