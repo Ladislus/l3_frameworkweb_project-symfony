@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Cours{% endblock %}
+
+{% block body %}
+    <h1>Edition d'un cours</h1>
+
+    {{ include('cours/cours_form.html.twig', {'button_label': 'Update'}) }}
+
+    {{ include('cours/cours_delete.html.twig') }}
+
+    <a href="{{ app.request.headers.get('referer') }}">Retour</a>
+{% endblock %}

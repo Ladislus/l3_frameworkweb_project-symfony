@@ -20,4 +20,6 @@
 
     <a href="{{ app.request.headers.get('referer') }}">Retour !</a>
 
+    <a href="{{ path('cours_edit', {id: cours.id}) }}">Editer</a>
+
 {% endblock %}
