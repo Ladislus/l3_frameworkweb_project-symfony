@@ -127,7 +127,7 @@ class CoursController extends AbstractController {
         }
 
         return $this->render('cours/cours_edit.html.twig', [
-            'cour' => $cours,
+            'cours' => $cours,
             'form' => $form->createView(),
         ]);
     }
