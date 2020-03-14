@@ -4,32 +4,88 @@
 
 {% block body %}
 
-    {#<a href="{{ path('cours') }}">Liste des cours !</a>#}
-
     <h1 class="title is-2">Cours par semestres</h1>
 
-    {% for semestre, list_cours in cours %}
+    {% for data in cours %}
 
-        <h2 class="title is-4">{{ semestre }}</h2>
+        <div>
+            <nav class="level">
+                <div class="level-left">
+                    <h2 class="level-item title is-4">{{ data.semestre.name }}</h2>
+                    <h3 class="level-item subtitle is-5">{{ data.semestre.pathway }}</h3>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                            <button class="button is-light">
+                                <a href="{{ path('semestre_edit', {id: data.semestre.id }) }}">Edit</a>
+                            </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        {% if data.list != null %}
+
+            <table class="table is-striped is-hoverable is-fullwidth">
+
+                <thead>
+                    <tr>
+                        <th>Identifiant</th>
+                        <th>Nom</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for current_cours in data.list %}
+
+                    <tr>
+
+                        <td>{{ current_cours.id }}</td>
+                        <td>{{ current_cours.name }}</td>
+                        <td><a href="{{ path('cours_details', {id: current_cours.id}) }}">Plus</a></td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% else %}
+
+            <h2 class="subtitle is-spaced">Aucun cours associés !</h2>
+
+        {% endif %}
+
+    {% endfor %}
+
+    {% if empty != null %}
+
+        {# TODO : Rendre la barre plus visible (largeur / couleurs) #}
+        <hr style="margin-top: 4rem; margin-bottom: 4rem">
+
+        <h2 class="title is-4">Cours sans semestre</h2>
 
         <table class="table is-striped is-hoverable is-fullwidth">
 
             <thead>
-            <tr>
-                <th>Identifiant</th>
-                <th>Nom</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Identifiant</th>
+                    <th>Nom</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
 
-            {% for current_cours in list_cours %}
+            {% for cours in empty %}
 
                 <tr>
 
-                    <td>{{ current_cours.id }}</td>
-                    <td>{{ current_cours.name }}</td>
-                    <td><a href="{{ path('cours_details', {id: current_cours.id}) }}">Plus</a></td>
+                    <td>{{ cours.id }}</td>
+                    <td>{{ cours.name }}</td>
+                    <td><a href="{{ path('cours_details', {id: cours.id}) }}">Plus</a></td>
 
                 </tr>
 
@@ -39,7 +95,7 @@
 
         </table>
 
-    {% endfor %}
+    {% endif %}
 
 {% endblock %}
 

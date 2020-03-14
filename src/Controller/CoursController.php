@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Cours;
 use App\Entity\Semestre;
+use App\Form\CoursForm;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CoursController extends AbstractController {
@@ -49,25 +52,97 @@ class CoursController extends AbstractController {
         $cours = array();
 
         foreach ($semestres as $semestre) {
-            $cours[$semestre->getName()] = $cours_repository->findBy(['semestre' => $semestre->getId()]);
+            array_push($cours,
+                [
+                    "semestre" => $semestre,
+                    "list" => $cours_repository->findBy(['semestre' => $semestre->getId()])
+                ]);
         }
 
         return $this->render('cours/by_semestre.html.twig',
             [
-                'cours' => $cours
+                'cours' => $cours,
+                'empty' => $cours_repository->findBy(['semestre' => null])
             ]);
     }
 
     /**
      * @Route("/cours/{id}", name="cours_details", requirements={"id"="\d+"})
      */
-    public function cours_details(int $id) {
+    public function cours_details(Cours $cours) {
 
-        $cours = $this->_em->getRepository(Cours::class)->find($id);
+        //Symfony automatically get the corresponding Cours
+//        $cours = $this->_em->getRepository(Cours::class)->find($id);
 
         return $this->render('cours/cours_details.html.twig',
             [
                 'cours' => $cours
             ]);
+    }
+
+    /**
+     * @Route("/cours/new", name="cours_new", methods={"GET","POST"})
+     */
+    public function cours_new(Request $request) : Response
+    {
+        $cours = new Cours();
+        $form = $this->createForm(CoursForm::class, $cours);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->_em->getManager();
+            $entityManager->persist($cours);
+            $entityManager->flush();
+
+            return $this->render('cours/cours_details.html.twig',
+                [
+                    'cours' => $cours
+                ]
+            );
+        }
+
+        return $this->render('cours/cours_new.html.twig',
+            [
+                'cours' => $cours,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/cours/edit/{id}", name="cours_edit", methods={"GET","POST"})
+     */
+    public function cours_edit(Request $request, Cours $cours): Response
+    {
+        $form = $this->createForm(CoursForm::class, $cours);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->_em->getManager()->flush();
+
+            return $this->render('cours/cours_details.html.twig',
+                [
+                    'cours' => $cours
+                ]);
+        }
+
+        return $this->render('cours/cours_edit.html.twig', [
+            'cours' => $cours,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/cours/delete/{id}", name="cours_delete", methods={"DELETE"})
+     */
+    public function cours_delete(Request $request, Cours $cours): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$cours->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->_em->getManager();
+            $entityManager->remove($cours);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('cours');
     }
 }
