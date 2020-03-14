@@ -1,4 +1,35 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-<button>{{ button_label|default('Sauvegarder') }}</button>
+{#name pathway cours#}
+
+    <div class="field">
+        <label class="label {{ form.name.vars.required ? 'required' }}">{{ form_label(form.name) }}</label>
+        <div class="control">
+            {{ form_widget(form.name, {'attr': {'class': 'input'}}) }}
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">{{ form_label(form.pathway) }}</label>
+        <div class="control">
+            {{ form_widget(form.pathway, {'attr': {'class': 'input'}}) }}
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">{{ form_label(form.Cours) }}</label>
+        <div class="control">
+            <div class="select is-multiple">
+                {{ form_widget(form.Cours) }}
+            </div>
+        </div>
+    </div>
+
+{{ form_rest(form) }}
+
+    <div class="field">
+        <div class="control">
+            <button class="button is-link">{{ button_label|default('Sauvegarder') }}</button>
+        </div>
+    </div>
+
 {{ form_end(form) }}
