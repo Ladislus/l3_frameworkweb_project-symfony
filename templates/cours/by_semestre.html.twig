@@ -9,12 +9,19 @@
     {% for data in cours %}
 
         <div>
-            <div>
-                <h2 class="title is-4">{{ data.semestre.name }}</h2>
-                <h3 class="subtitle">{{ data.semestre.pathway }}</h3>
-            </div>
-            {# TODO : Aligner le bouton 'edit' a droite #}
-            <a href="{{ path('semestre_edit', {id: data.semestre.id }) }}">Edit</a>
+            <nav class="level">
+                <div class="level-left">
+                    <h2 class="level-item title is-4">{{ data.semestre.name }}</h2>
+                    <h3 class="level-item subtitle is-5">{{ data.semestre.pathway }}</h3>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                            <button class="button is-light">
+                                <a href="{{ path('semestre_edit', {id: data.semestre.id }) }}">Edit</a>
+                            </button>
+                    </div>
+                </div>
+            </nav>
         </div>
 
         {% if data.list != null %}
@@ -48,8 +55,7 @@
 
         {% else %}
 
-            {# TODO : Ajouter un padding en dessous #}
-            <h2 class="subtitle">Aucun cours associés !</h2>
+            <h2 class="subtitle is-spaced">Aucun cours associés !</h2>
 
         {% endif %}
 
