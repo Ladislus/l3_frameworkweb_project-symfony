@@ -6,24 +6,31 @@
 
     <h1 class="title is-2">Cours par semestres</h1>
 
-    {% for semestre, list_cours in cours %}
+    {% for data in cours %}
 
-        <h2 class="title is-4">{{ semestre }}</h2>
+        <div>
+            <div>
+                <h2 class="title is-4">{{ data.semestre.name }}</h2>
+                <h3 class="subtitle">{{ data.semestre.pathway }}</h3>
+            </div>
+            {# TODO : Aligner le bouton 'edit' a droite #}
+            <a href="{{ path('semestre_edit', {id: data.semestre.id }) }}">Edit</a>
+        </div>
 
-        {% if list_cours != null %}
+        {% if data.list != null %}
 
             <table class="table is-striped is-hoverable is-fullwidth">
 
                 <thead>
-                <tr>
-                    <th>Identifiant</th>
-                    <th>Nom</th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>Identifiant</th>
+                        <th>Nom</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
 
-                {% for current_cours in list_cours %}
+                {% for current_cours in data.list %}
 
                     <tr>
 
@@ -41,12 +48,45 @@
 
         {% else %}
 
-            {# TODO #}
+            {# TODO : Ajouter un padding en dessous #}
             <h2 class="subtitle">Aucun cours associés !</h2>
 
         {% endif %}
 
     {% endfor %}
+
+    {% if empty != null %}
+
+        <h2 class="title is-4">Cours sans semestre</h2>
+
+        <table class="table is-striped is-hoverable is-fullwidth">
+
+            <thead>
+                <tr>
+                    <th>Identifiant</th>
+                    <th>Nom</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for cours in empty %}
+
+                <tr>
+
+                    <td>{{ cours.id }}</td>
+                    <td>{{ cours.name }}</td>
+                    <td><a href="{{ path('cours_details', {id: cours.id}) }}">Plus</a></td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    {% endif %}
 
 {% endblock %}
 
