@@ -16,7 +16,7 @@
 
     {% endif %}
 
-    <p>{{ cours.description }}</p>
+    <p>{{ cours.description | markdown_to_html }}</p>
 
     <a href="{{ app.request.headers.get('referer') }}">Retour !</a>
 

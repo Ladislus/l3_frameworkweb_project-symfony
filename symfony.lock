@@ -105,6 +105,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "erusev/parsedown": {
+        "version": "1.7.4"
+    },
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
@@ -536,6 +539,9 @@
         "version": "v5.0.5"
     },
     "twig/extra-bundle": {
+        "version": "v3.0.3"
+    },
+    "twig/markdown-extra": {
         "version": "v3.0.3"
     },
     "twig/twig": {
